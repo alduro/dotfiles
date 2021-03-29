@@ -1,0 +1,19 @@
+[core]
+	editor=vim
+[user]
+	name = Aldo Nievas
+	email = aldo.nievas@gmail.com
+	signingkey = 9A5D3020A98FF0D7
+[pull]
+	rebase = true
+[push]
+	default = current
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
