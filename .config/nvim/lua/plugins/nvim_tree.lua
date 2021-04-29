@@ -16,3 +16,5 @@ vim.g.nvim_tree_bindings = {
 }
 
 map('n', '<leader>d', ':NvimTreeToggle<cr>')
+map('n', '<leader>r', ':NvimTreeRefresh<CR>')
+map('n', '<leader>n', ':NvimTreeFindFile<CR>')

@@ -8,10 +8,15 @@ telescope.load_extension('media_files')
 
 telescope.setup {
   defaults = {
+    prompt_position = "top",
+    sorting_strategy = "ascending",
     mappings = {
-      i = { ["<esc>"] = actions.close }
+      i = { ["<esc>"] = actions.close },
+      n = { ["<esc>"] = actions.close },
     },
-    file_previewer = previewers.vim_buffer_cat.new,
+    -- file_previewer = previewers.vim_buffer_cat.new,
+    file_previewer = previewers.cat.new,
+    color_devicons = true,
   }
 }
 

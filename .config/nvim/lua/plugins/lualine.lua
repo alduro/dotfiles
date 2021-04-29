@@ -25,5 +25,5 @@ require('lualine').setup {
     lualine_c = { 'filename' },
     lualine_x = { 'location' },
   },
-  extensions = { 'fzf' }
+  -- extensions = { 'fzf' }
 }

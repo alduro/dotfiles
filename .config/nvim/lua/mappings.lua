@@ -30,16 +30,8 @@ map('n', '<leader>:', ':%s/:\\(\\w\\+\\)\\s*=>\\s*/\\1: /g<cr>')
 map('v', '<', '<gv', { noremap = true, silent = true })
 map('v', '>', '>gv', { noremap = true, silent = true })
 
-map('n', '<leader>,', ':NvimTreeToggle<CR>')
-map('n', '<leader>r', ':NvimTreeRefresh<CR>')
-map('n', '<leader>n', ':NvimTreeFindFile<CR>')
-
 -- bufdel
 map('n', '<leader>bd', '<cmd>BufDel<CR>')
--- git
-map('n', '<leader>gs',  ':Git<CR>')
-map('n', '<leader>gc', ':Git commit<CR>')
-map('n', '<leader>gp', ':Git push<CR>')
 
 vim.api.nvim_exec(
 [[

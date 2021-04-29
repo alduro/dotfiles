@@ -1,11 +1,11 @@
 require("nvim-treesitter.configs").setup {
-  ensure_installed = "all",
+  ensure_installed = "maintained",
   highlight = {
-		enable = true,
-		-- disable = { "javascript" },  -- list of language that will be disabled
-	},
-  indent = { enable = false },
-  incremental_selection = { enable = false },
+    enable = true,
+    disable = { "haskell" },  -- list of language that will be disabled
+  },
+indent = { enable = false },
+incremental_selection = { enable = false },
   autotag = {
     enable = true,
     filetypes = {

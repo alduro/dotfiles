@@ -1,43 +1,58 @@
-local map_buf = require('utils').map_buf
-local buf_option = require('utils').buf_option
-
-local on_attach = function(client)
-  -- buf_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+local on_attach = function(client, bufnr)
   print("LSP started.");
   require'completion'.on_attach(client)
 
-  -- if client.resolved_capabilities.document_formatting then
-  --   vim.cmd [[augroup Format]]
-  --   vim.cmd [[autocmd! * <buffer>]]
-  --   vim.cmd [[autocmd BufWritePost <buffer> lua formatting()]]
-  --   vim.cmd [[augroup END]]
-  -- end
-  -- Mappings
-  local opts = { noremap = true, silent = true }
+  local buf_map = vim.api.nvim_buf_set_keymap
+  vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
+  vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
+  vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
+  vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
+  vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
+  vim.cmd("command! LspOrganize lua lsp_organize_imports()")
+  vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
+  vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
+  vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
+  vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
+  vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
+  vim.cmd("command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
+  vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
 
-  map_buf('n', 'gD', '<cmd>lua vim.lsp.buf.declaration() <CR>', opts)
-  map_buf('n', 'gd', '<cmd>lua vim.lsp.buf.definition() <CR>', opts)
-  map_buf('n', 'K', '<cmd>lua vim.lsp.buf.hover() <CR>', opts)
-  map_buf('n', 'gi', '<cmd>lua vim.lsp.buf.implementation() <CR>', opts)
-  map_buf('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename() <CR>', opts)
-  map_buf('n', 'gr', '<cmd>lua vim.lsp.buf.references() <CR>', opts)
-  -- map_buf('n', '<leader>ca', '<cmd>lua require("lspsaga.codeaction").code_action() <CR>', opts)
-  map_buf('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action() <CR>', opts)
-  -- mab_buf('v', '<leader>ca', ":<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>", opts)
-  -- mab_buf('v', '<leader>ca', ":'<,'>lua vim.lsp.buf.range_code_action()<CR>", opts)
-  map_buf('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev() <CR>', opts)
-  map_buf('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next() <CR>', opts)
-  map_buf('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist() <CR>', opts)
+  buf_map(bufnr, "n", "gd", ":LspDef<CR>", {silent = true})
+  buf_map(bufnr, "n", "gr", ":LspRename<CR>", {silent = true})
+  buf_map(bufnr, "n", "gR", ":LspRefs<CR>", {silent = true})
+  buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>", {silent = true})
+  buf_map(bufnr, "n", "K",  ":LspHover<CR>", {silent = true})
+  buf_map(bufnr, "n", "gs", ":LspOrganize<CR>", {silent = true})
+  buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>", {silent = true})
+  buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>", {silent = true})
+  buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>", {silent = true})
+  buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>", {silent = true})
+  buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>", {silent = true})
 
-  vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
-  vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
-  vim.cmd [[autocmd BufWritePre *.js,*.jsx lua vim.lsp.buf.formatting_sync(nil, 1000)]]
+  vim.cmd [[autocmd CursorHold * LspDiagLine]]
+  vim.cmd [[autocmd CursorHoldI * silent! LspSignatureHelp]]
 
   if client.resolved_capabilities.document_formatting then
-    map_buf("n", "<leader>qf", "<cmd>lua vim.lsp.buf.formatting() <CR>", opts)
-  elseif client.resolved_capabilities.document_range_formatting then
-    map_buf("n", "<leader>qf", "<cmd>lua vim.lsp.buf.range_formatting() <CR>", opts)
+    vim.api.nvim_exec([[
+      augroup LspAutocommands
+          autocmd! * <buffer>
+          autocmd BufWritePre <buffer> LspFormatting
+      augroup END
+      ]], true)
+  end
+  -- Set autocommands conditional on server_capabilities
+  if client.resolved_capabilities.document_highlight then
+    vim.api.nvim_exec([[
+      hi LspReferenceRead cterm=bold ctermbg=red guibg=Grey
+      hi LspReferenceText cterm=bold ctermbg=red guibg=Grey
+      hi LspReferenceWrite cterm=bold ctermbg=red guibg=Grey
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]], false)
   end
 end
-
 return on_attach
+ 

@@ -26,8 +26,12 @@ return require('packer').startup(function()
   use 'jiangmiao/auto-pairs' -- insert or delete brackets, parens, quotes in pair
   use {
     'lewis6991/gitsigns.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-    config = function() require('gitsigns').setup() end
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      require('gitsigns').setup()
+    end
   }
 
   use {
@@ -65,24 +69,24 @@ return require('packer').startup(function()
       'nvim-telescope/telescope-fzy-native.nvim',
       'nvim-telescope/telescope-media-files.nvim'
     },
-    -- config = function() require('plugins.telescope') end
+    config = function() require('plugins.telescope') end
   }
 
-  use {
-    'junegunn/fzf.vim',
-    requires = { 'junegunn/fzf', run = '-> fzf#install()' },
-    config = function() require('plugins.fzf') end
-  }
+  -- use {
+  --   'junegunn/fzf.vim',
+  --   requires = { 'junegunn/fzf', run = '-> fzf#install()' },
+  --   -- config = function() require('plugins.fzf') end
+  -- }
 
   use {
     'kyazdani42/nvim-tree.lua',
     config = function() require('plugins.nvim_tree') end
   }
 
-  -- use {
-  --   'dyng/ctrlsf.vim', -- Mimics Ctrl-Shift-F on Sublime Text 2
-  --   config = function() require('plugins.ctrlsf') end
-  -- }
+  use {
+    'dyng/ctrlsf.vim', -- Mimics Ctrl-Shift-F on Sublime Text 2
+    config = function() require('plugins.ctrlsf') end
+  }
 
   use {
     'neovim/nvim-lspconfig',
@@ -106,7 +110,7 @@ return require('packer').startup(function()
 
   use 'henrik/vim-indexed-search' -- Display number of search results
 
-  -- use {'ojroques/nvim-hardline'}
+  use {'ojroques/nvim-hardline'}
   use {
     'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
@@ -118,15 +122,19 @@ return require('packer').startup(function()
   --   config = function() require('plugins.onedark') end
   -- }
 
-  use {
-    'charliesbot/night-owl.vim',
-    config = function() require('plugins.night_owl') end
-  }
+  -- use {
+  --   'charliesbot/night-owl.vim',
+  --   config = function() require('plugins.night_owl') end
+  -- }
 
   use {
-    'kyazdani42/nvim-web-devicons',
-    config = function() require('plugins.nvim_web_devicons') end
+    'Th3Whit3Wolf/onebuddy',
+    requires = 'tjdevries/colorbuddy.vim'
   }
+  -- use {
+  --   'kyazdani42/nvim-web-devicons',
+  --   config = function() require('plugins.nvim_web_devicons') end
+  -- }
 
   use 'dstein64/nvim-scrollview'
 
@@ -135,20 +143,21 @@ return require('packer').startup(function()
     config = function() require('colorizer').setup() end
   }
 
-  -- Ruby
+  -- -- Ruby
   use {
     'ecomba/vim-ruby-refactoring',
     'p0deje/vim-ruby-interpolation', -- Simple plugin to add {} after hitting #
-    'tpope/vim-rails',               -- rails.vim: Ruby on Rails power tools
-    {
-      config = function()
-        local map = require('utils').map
+  }
 
-        map('n', '<leader>a', ':A<cr>')
-        map('n',  '<leader>av', ':AV <cr>')
-        map('n', '<leader>as', ':AS<cr>')
-      end
-    }
+  use {
+    'tpope/vim-rails',               -- rails.vim: Ruby on Rails power tools
+    config = function()
+      local map = require('utils').map
+
+      map('n', '<leader>a', ':A<cr>')
+      map('n',  '<leader>av', ':AV <cr>')
+      map('n', '<leader>as', ':AS<cr>')
+    end
   }
 
   -- Go
@@ -157,21 +166,21 @@ return require('packer').startup(function()
     run = ':GoUpdateBinaries'
   }
   -- LSP
-  use {
-    'ojroques/nvim-lspfuzzy',
-    requires = {
-      {'junegunn/fzf'},
-      {'junegunn/fzf.vim'},  -- to enable preview (optional)
-    },
-  }
+  -- use {
+  --   'ojroques/nvim-lspfuzzy',
+  --   requires = {
+  --     {'junegunn/fzf'},
+  --     {'junegunn/fzf.vim'},  -- to enable preview (optional)
+  --   },
+  -- }
   -- HTMLish
   use 'windwp/nvim-ts-autotag'
 
-  -- TODO: remove when TS is stable ?
-  -- use {
-  --   'tpope/vim-ragtag', -- ex <% %>, <%= %>, <!-- -->
-  --   config = function() vim.g.ragtag_global_maps = 1 end
-  -- }
+  -- -- TODO: remove when TS is stable ?
+  -- -- use {
+  -- --   'tpope/vim-ragtag', -- ex <% %>, <%= %>, <!-- -->
+  -- --   config = function() vim.g.ragtag_global_maps = 1 end
+  -- -- }
 
   use {
     'mattn/emmet-vim',
@@ -181,13 +190,13 @@ return require('packer').startup(function()
   }
 
   -- Others
-	use {
-		'sheerun/vim-polyglot',
-		config = function()
+  use {
+    'sheerun/vim-polyglot',
+    config = function()
       vim.g.polyglot_disabled = {'sensible'}
       vim.g.csv_strict_columns = 1
       vim.g.csv_start = 1
       vim.g.csv_end = 1000
     end
-	}
+  }
 end)

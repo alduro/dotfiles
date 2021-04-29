@@ -4,11 +4,11 @@ local on_attach = require('lsp.on_attach')
 -- local prettier = require('lsp.efm.prettier')
 
 local eslint = {
-  lintCommand = 'npx eslint  -f unix --stdin --stdin-filename ${INPUT}',
+  lintCommand = 'npx eslint_d  -f unix --stdin --stdin-filename ${INPUT}',
   lintIgnoreExitCode = true,
   lintStdin = true,
   lintFormats = {"%f:%l:%c: %m"},
-  formatCommand = "npx eslint --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+  formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
   formatStdin = true
 }
 
@@ -23,7 +23,7 @@ local languages = {
   -- markdown = { prettier },
   javascript = { eslint, prettier },
   javascriptreact = { eslint, prettier },
-  typescript = { eslint, prettier },
+  typescrit = { eslint, prettier },
   typescriptreact = { eslint, prettier },
   -- css = { prettier },
   -- scss = { prettier },
