@@ -1,8 +1,11 @@
-local on_attach = function(client, bufnr)
-  print("LSP started.");
-  require'completion'.on_attach(client)
+local map_buf = require('utils').map_buf
 
-  local buf_map = vim.api.nvim_buf_set_keymap
+local on_attach = function(client, bufnr)
+  print("LSP started." .. client.name);
+  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  require'completion'.on_attach(client)
+  require'lsp_signature'.on_attach(client)
+
   vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
   vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
   vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
@@ -12,22 +15,24 @@ local on_attach = function(client, bufnr)
   vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
   vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
   vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
-  vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
-  vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
+  -- vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
+  -- vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
   vim.cmd("command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
   vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
+  
+  local opts = { noremap = true, silent = true }
 
-  buf_map(bufnr, "n", "gd", ":LspDef<CR>", {silent = true})
-  buf_map(bufnr, "n", "gr", ":LspRename<CR>", {silent = true})
-  buf_map(bufnr, "n", "gR", ":LspRefs<CR>", {silent = true})
-  buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>", {silent = true})
-  buf_map(bufnr, "n", "K",  ":LspHover<CR>", {silent = true})
-  buf_map(bufnr, "n", "gs", ":LspOrganize<CR>", {silent = true})
-  buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>", {silent = true})
-  buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>", {silent = true})
-  buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>", {silent = true})
-  buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>", {silent = true})
-  buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>", {silent = true})
+  map_buf("n", "gd", ":LspDef<CR>", opts)
+  map_buf("n", "gr", ":LspRename<CR>", opts)
+  map_buf("n", "gR", ":LspRefs<CR>", opts)
+  map_buf("n", "gy", ":LspTypeDef<CR>", opts)
+  map_buf("n", "K",  ":LspHover<CR>", opts)
+  map_buf("n", "gs", ":LspOrganize<CR>", opts)
+  -- map_buf("n", "[a", ":LspDiagPrev<CR>", opts)
+  -- map_buf("n", "]a", ":LspDiagNext<CR>", opts)
+  map_buf("n", "ga", ":LspCodeAction<CR>", opts)
+  map_buf("n", "<Leader>a", ":LspDiagLine<CR>", opts)
+  map_buf("i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>", opts)
 
   vim.cmd [[autocmd CursorHold * LspDiagLine]]
   vim.cmd [[autocmd CursorHoldI * silent! LspSignatureHelp]]

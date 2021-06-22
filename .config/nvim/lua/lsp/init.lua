@@ -1,34 +1,22 @@
 local lspconfig = require('lspconfig')
 local on_attach = require('lsp.on_attach')
-local saga = require 'lspsaga'
+local capabilities = require('lsp.capabilities')
 
-saga.init_lsp_saga {
-  code_action_icon = '💡',
-  code_action_prompt = {
-    virtual_text = false
-  },
-  hint_sign = '🌿',
-  dianostic_header_icon = "👀 "
-}
-
--- handlers
+-- vim.lsp.set_log_level("debug")
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    underline = true,
-    update_in_insert = true,
     signs = true,
+    underline = false,    
+    -- virtual_text = false,
+    update_in_insert = true,
+    virtual_text = {
+      spacing = 2,
+      severity_limit = 'Warning',
+    },
   }
 )
 
-vim.lsp.diagnostic.show_line_diagnostics = require('lspsaga.diagnostic').show_line_diagnostics
-
-vim.lsp.handlers["textDocument/hover"] = require('lspsaga.hover').handler
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-local servers = { "cssls", "html", "jsonls", "solargraph", "clojure_lsp", "gopls" }
+local servers = { "cssls", "html", "jsonls", "clojure_lsp", "gopls", "graphql", "solargraph" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -37,10 +25,6 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- lightbulb config
--- vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
-
--- require('lsp.efm')
+require('lsp.efm')
 require('lsp.sumneko_lua')
 require('lsp.tsserver')
-require('lsp.efm')

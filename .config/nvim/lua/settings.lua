@@ -1,7 +1,10 @@
 vim.o.mouse = 'a' -- Enable mouse
 vim.o.exrc = true -- Allow using local nvimrc
 -- Appearance
-vim.o.termguicolors = true -- Support 24 bit color
+vim.go.termguicolors = true
+vim.go.t_Co = "256"
+vim.go.t_ut = ""
+vim.o.guifont="Inconsolata Regular Nerd Font Complete Mono"
 vim.o.updatetime = 300  --Faster completion
 vim.o.lazyredraw = true -- the screen will not be redrawn unless necessary
 vim.wo.number = true
@@ -19,7 +22,7 @@ vim.o.inccommand = 'nosplit' -- Enable live substitution
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
-vim.o.hidden = true -- Keep undo history for hiden buffers
+vim.o.hidden = true
 -- More Natural splits behaviour
 vim.o.splitbelow = true
 vim.o.splitright = true
@@ -55,4 +58,3 @@ vim.bo.textwidth =  99	                -- Maximum width of text
 vim.o.completeopt = 'menuone,noinsert,noselect'  -- Completion options
 vim.o.shiftround = true                   -- Round indent
 vim.o.wildmode = 'list:longest'           -- Command-line completion mode
-

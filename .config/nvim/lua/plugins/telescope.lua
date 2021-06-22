@@ -1,6 +1,7 @@
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 local previewers = require('telescope.previewers')
+local trouble = require('trouble.providers.telescope')
 local map_lua = require('utils').map_lua
 local map = require('utils').map
 telescope.load_extension 'fzy_native'
@@ -11,8 +12,12 @@ telescope.setup {
     prompt_position = "top",
     sorting_strategy = "ascending",
     mappings = {
-      i = { ["<esc>"] = actions.close },
-      n = { ["<esc>"] = actions.close },
+      i = { ["<esc>"] = actions.close,
+            ["<c-t>"] = trouble.open_with_trouble
+          },
+      n = { ["<esc>"] = actions.close ,
+            ["<c-t>"] = trouble.open_with_trouble 
+          },
     },
     -- file_previewer = previewers.vim_buffer_cat.new,
     file_previewer = previewers.cat.new,

@@ -62,8 +62,9 @@ time("try_loadstring definition", true)
 local function try_loadstring(s, component, name)
   local success, result = pcall(loadstring(s))
   if not success then
-    print('Error running ' .. component .. ' for ' .. name)
-    error(result)
+    vim.schedule(function()
+      vim.api.nvim_notify('packer.nvim: Error running ' .. component .. ' for ' .. name .. ': ' .. result, vim.log.levels.ERROR, {})
+    end)
   end
   return result
 end
@@ -103,9 +104,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
   },
+  ["lsp-colors.nvim"] = {
+    loaded = true,
+    path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/lsp-colors.nvim"
+  },
   ["lsp-status.nvim"] = {
     loaded = true,
     path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/lsp-status.nvim"
+  },
+  ["lsp_signature.nvim"] = {
+    loaded = true,
+    path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim"
   },
   ["lspsaga.nvim"] = {
     loaded = true,
@@ -116,8 +125,13 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/lualine.nvim"
   },
+  ["night-owl.vim"] = {
+    config = { "\27LJ\2\n1\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\22plugins.night_owl\frequire\0" },
+    loaded = true,
+    path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/night-owl.vim"
+  },
   ["nvim-bufbar"] = {
-    config = { "\27LJ\2\nf\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\rcounters\1\15show_flags\1\17show_bufname\fvisible\nsetup\vbufbar\frequire\0" },
+    config = { "\27LJ\2\nf\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\17show_bufname\fvisible\rcounters\1\15show_flags\1\nsetup\vbufbar\frequire\0" },
     loaded = true,
     path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/nvim-bufbar"
   },
@@ -201,6 +215,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/telescope.nvim"
   },
+  ["trouble.nvim"] = {
+    config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0" },
+    loaded = true,
+    path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/trouble.nvim"
+  },
   ["vim-commentary"] = {
     loaded = true,
     path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/vim-commentary"
@@ -235,6 +254,10 @@ _G.packer_plugins = {
   ["vim-repeat"] = {
     loaded = true,
     path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/vim-repeat"
+  },
+  ["vim-rescript"] = {
+    loaded = true,
+    path = "/Users/alduro/.local/share/nvim/site/pack/packer/start/vim-rescript"
   },
   ["vim-rhubarb"] = {
     loaded = true,
@@ -276,66 +299,74 @@ time("Defining packer_plugins", false)
 time("Config for nvim-tree.lua", true)
 try_loadstring("\27LJ\2\n1\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\22plugins.nvim_tree\frequire\0", "config", "nvim-tree.lua")
 time("Config for nvim-tree.lua", false)
--- Config for: nvim-lspconfig
-time("Config for nvim-lspconfig", true)
-try_loadstring("\27LJ\2\n(\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\rlsp.init\frequire\0", "config", "nvim-lspconfig")
-time("Config for nvim-lspconfig", false)
--- Config for: nvim-bufbar
-time("Config for nvim-bufbar", true)
-try_loadstring("\27LJ\2\nf\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\rcounters\1\15show_flags\1\17show_bufname\fvisible\nsetup\vbufbar\frequire\0", "config", "nvim-bufbar")
-time("Config for nvim-bufbar", false)
--- Config for: vim-test
-time("Config for vim-test", true)
-try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21plugins.vim_test\frequire\0", "config", "vim-test")
-time("Config for vim-test", false)
--- Config for: telescope.nvim
-time("Config for telescope.nvim", true)
-try_loadstring("\27LJ\2\n1\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\22plugins.telescope\frequire\0", "config", "telescope.nvim")
-time("Config for telescope.nvim", false)
--- Config for: nvim-bufdel
-time("Config for nvim-bufdel", true)
-try_loadstring("\27LJ\2\nF\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\tnext\ncycle\nsetup\vbufdel\frequire\0", "config", "nvim-bufdel")
-time("Config for nvim-bufdel", false)
--- Config for: gitsigns.nvim
-time("Config for gitsigns.nvim", true)
-try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
-time("Config for gitsigns.nvim", false)
--- Config for: nvim-bufferline.lua
-time("Config for nvim-bufferline.lua", true)
-try_loadstring("\27LJ\2\n8\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\15bufferline\frequire\0", "config", "nvim-bufferline.lua")
-time("Config for nvim-bufferline.lua", false)
--- Config for: vim-polyglot
-time("Config for vim-polyglot", true)
-try_loadstring("\27LJ\2\n表1\0\0\2\0\a\0\0176\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\0\0009\0\1\0)\1\1\0=\1\4\0006\0\0\0009\0\1\0)\1\1\0=\1\5\0006\0\0\0009\0\1\0)\1鐔3=\1\6\0K\0\1\0\fcsv_end\14csv_start\23csv_strict_columns\1\2\0\0\rsensible\22polyglot_disabled\6g\bvim\0", "config", "vim-polyglot")
-time("Config for vim-polyglot", false)
--- Config for: nvim-colorizer.lua
-time("Config for nvim-colorizer.lua", true)
-try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
-time("Config for nvim-colorizer.lua", false)
--- Config for: lualine.nvim
-time("Config for lualine.nvim", true)
-try_loadstring("\27LJ\2\n/\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\20plugins.lualine\frequire\0", "config", "lualine.nvim")
-time("Config for lualine.nvim", false)
+-- Config for: trouble.nvim
+time("Config for trouble.nvim", true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0", "config", "trouble.nvim")
+time("Config for trouble.nvim", false)
 -- Config for: vim-fugitive
 time("Config for vim-fugitive", true)
 try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21plugins.fugitive\frequire\0", "config", "vim-fugitive")
 time("Config for vim-fugitive", false)
--- Config for: nvim-treesitter
-time("Config for nvim-treesitter", true)
-try_loadstring("\27LJ\2\n2\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\23plugins.treesitter\frequire\0", "config", "nvim-treesitter")
-time("Config for nvim-treesitter", false)
--- Config for: indent-blankline.nvim
-time("Config for indent-blankline.nvim", true)
-try_loadstring("\27LJ\2\n申2\0\0\2\0\f\0\0216\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\0\0009\0\1\0005\1\5\0=\1\4\0006\0\0\0009\0\1\0'\1\a\0=\1\6\0006\0\0\0009\0\1\0+\1\2\0=\1\b\0006\0\0\0009\0\t\0'\1\v\0=\1\n\0K\0\1\0\n99999\16colorcolumn\awo$indent_blankline_use_treesitter\b笆十26indent_blankline_char\1\3\0\0\thelp\vpacker&indent_blankline_filetype_exclude\1\2\0\0\rterminal%indent_blankline_buftype_exclude\6g\bvim\0", "config", "indent-blankline.nvim")
-time("Config for indent-blankline.nvim", false)
+-- Config for: nvim-lspconfig
+time("Config for nvim-lspconfig", true)
+try_loadstring("\27LJ\2\n(\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\rlsp.init\frequire\0", "config", "nvim-lspconfig")
+time("Config for nvim-lspconfig", false)
+-- Config for: nvim-bufdel
+time("Config for nvim-bufdel", true)
+try_loadstring("\27LJ\2\nF\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\tnext\ncycle\nsetup\vbufdel\frequire\0", "config", "nvim-bufdel")
+time("Config for nvim-bufdel", false)
+-- Config for: vim-test
+time("Config for vim-test", true)
+try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21plugins.vim_test\frequire\0", "config", "vim-test")
+time("Config for vim-test", false)
+-- Config for: vim-polyglot
+time("Config for vim-polyglot", true)
+try_loadstring("\27LJ\2\n表1\0\0\2\0\a\0\0176\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\0\0009\0\1\0)\1\1\0=\1\4\0006\0\0\0009\0\1\0)\1\1\0=\1\5\0006\0\0\0009\0\1\0)\1鐔3=\1\6\0K\0\1\0\fcsv_end\14csv_start\23csv_strict_columns\1\2\0\0\rsensible\22polyglot_disabled\6g\bvim\0", "config", "vim-polyglot")
+time("Config for vim-polyglot", false)
+-- Config for: lualine.nvim
+time("Config for lualine.nvim", true)
+try_loadstring("\27LJ\2\n/\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\20plugins.lualine\frequire\0", "config", "lualine.nvim")
+time("Config for lualine.nvim", false)
 -- Config for: ctrlsf.vim
 time("Config for ctrlsf.vim", true)
 try_loadstring("\27LJ\2\n.\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\19plugins.ctrlsf\frequire\0", "config", "ctrlsf.vim")
 time("Config for ctrlsf.vim", false)
+-- Config for: nvim-bufbar
+time("Config for nvim-bufbar", true)
+try_loadstring("\27LJ\2\nf\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\3\17show_bufname\fvisible\rcounters\1\15show_flags\1\nsetup\vbufbar\frequire\0", "config", "nvim-bufbar")
+time("Config for nvim-bufbar", false)
+-- Config for: indent-blankline.nvim
+time("Config for indent-blankline.nvim", true)
+try_loadstring("\27LJ\2\n申2\0\0\2\0\f\0\0216\0\0\0009\0\1\0005\1\3\0=\1\2\0006\0\0\0009\0\1\0005\1\5\0=\1\4\0006\0\0\0009\0\1\0'\1\a\0=\1\6\0006\0\0\0009\0\1\0+\1\2\0=\1\b\0006\0\0\0009\0\t\0'\1\v\0=\1\n\0K\0\1\0\n99999\16colorcolumn\awo$indent_blankline_use_treesitter\b笆十26indent_blankline_char\1\3\0\0\thelp\vpacker&indent_blankline_filetype_exclude\1\2\0\0\rterminal%indent_blankline_buftype_exclude\6g\bvim\0", "config", "indent-blankline.nvim")
+time("Config for indent-blankline.nvim", false)
+-- Config for: telescope.nvim
+time("Config for telescope.nvim", true)
+try_loadstring("\27LJ\2\n1\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\22plugins.telescope\frequire\0", "config", "telescope.nvim")
+time("Config for telescope.nvim", false)
 -- Config for: vim-rails
 time("Config for vim-rails", true)
 try_loadstring("\27LJ\2\n｣\1\0\0\6\0\n\0\0206\0\0\0'\2\1\0B\0\2\0029\0\2\0\18\1\0\0'\3\3\0'\4\4\0'\5\5\0B\1\4\1\18\1\0\0'\3\3\0'\4\6\0'\5\a\0B\1\4\1\18\1\0\0'\3\3\0'\4\b\0'\5\t\0B\1\4\1K\0\1\0\f:AS<cr>\15<leader>as\r:AV <cr>\15<leader>av\v:A<cr>\14<leader>a\6n\bmap\nutils\frequire\0", "config", "vim-rails")
 time("Config for vim-rails", false)
+-- Config for: nvim-treesitter
+time("Config for nvim-treesitter", true)
+try_loadstring("\27LJ\2\n2\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\23plugins.treesitter\frequire\0", "config", "nvim-treesitter")
+time("Config for nvim-treesitter", false)
+-- Config for: nvim-colorizer.lua
+time("Config for nvim-colorizer.lua", true)
+try_loadstring("\27LJ\2\n7\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
+time("Config for nvim-colorizer.lua", false)
+-- Config for: nvim-bufferline.lua
+time("Config for nvim-bufferline.lua", true)
+try_loadstring("\27LJ\2\n8\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\15bufferline\frequire\0", "config", "nvim-bufferline.lua")
+time("Config for nvim-bufferline.lua", false)
+-- Config for: night-owl.vim
+time("Config for night-owl.vim", true)
+try_loadstring("\27LJ\2\n1\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\22plugins.night_owl\frequire\0", "config", "night-owl.vim")
+time("Config for night-owl.vim", false)
+-- Config for: gitsigns.nvim
+time("Config for gitsigns.nvim", true)
+try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
+time("Config for gitsigns.nvim", false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads

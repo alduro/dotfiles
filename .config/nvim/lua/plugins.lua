@@ -116,16 +116,42 @@ return require('packer').startup(function()
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
     config = function() require('plugins.lualine') end
   }
-
+  use {
+    'folke/trouble.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('trouble').setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
+  use {
+    'folke/lsp-colors.nvim',
+    config = require("lsp-colors").setup({
+      Error = "#db4b4b",
+      Warning = "#e0af68",
+      Information = "#0db9d7",
+      Hint = "#10B981"
+    })
+  }
+  use {
+    'ray-x/lsp_signature.nvim',
+  }
+  -- use {
+  --   'ray-x/navigator.lua', 
+  --   requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}
+  -- }
   -- use {
   --   'joshdick/onedark.vim', -- Colorscheme based on atom onedark
   --   config = function() require('plugins.onedark') end
   -- }
 
-  -- use {
-  --   'charliesbot/night-owl.vim',
-  --   config = function() require('plugins.night_owl') end
-  -- }
+  use {
+    'charliesbot/night-owl.vim',
+    config = function() require('plugins.night_owl') end
+  }
 
   use {
     'Th3Whit3Wolf/onebuddy',
@@ -189,6 +215,7 @@ return require('packer').startup(function()
     }
   }
 
+  use 'rescript-lang/vim-rescript'
   -- Others
   use {
     'sheerun/vim-polyglot',
