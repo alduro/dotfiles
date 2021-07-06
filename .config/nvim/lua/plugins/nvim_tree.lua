@@ -10,11 +10,6 @@ vim.g.nvim_tree_git_hl = 1
 vim.g.nvim_tree_disable_netrw = 0 -- So :GBrowse works
 vim.g.nvim_tree_hijack_netrw = 0
 
-vim.g.nvim_tree_bindings = {
-  ["l"] = tree_cb('edit'),
-  ["h"] = tree_cb('close_node'),
-}
-
 map('n', '<leader>d', ':NvimTreeToggle<cr>')
 map('n', '<leader>r', ':NvimTreeRefresh<CR>')
 map('n', '<leader>n', ':NvimTreeFindFile<CR>')

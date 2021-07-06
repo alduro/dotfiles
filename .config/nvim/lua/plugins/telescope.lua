@@ -9,8 +9,6 @@ telescope.load_extension('media_files')
 
 telescope.setup {
   defaults = {
-    prompt_position = "top",
-    sorting_strategy = "ascending",
     mappings = {
       i = { ["<esc>"] = actions.close,
             ["<c-t>"] = trouble.open_with_trouble

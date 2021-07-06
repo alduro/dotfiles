@@ -13,11 +13,11 @@ return require('packer').startup(function()
   }
   use 'tpope/vim-repeat' -- enable repeating supported plugin maps with '.'
   use 'tpope/vim-surround' -- Vim Surround
-  use {
-    'janko-m/vim-test',
-    requires = 'benmills/vimux', -- Vim test runner
-    config = function() require('plugins.vim_test') end
-  }
+  -- use {
+  --   'janko-m/vim-test',
+  --   requires = 'benmills/vimux', -- Vim test runner
+  --   config = function() require('plugins.vim_test') end
+  -- }
   use {
     'mg979/vim-visual-multi',
     branch = 'master'
@@ -98,7 +98,7 @@ return require('packer').startup(function()
   use 'kosayoda/nvim-lightbulb'
   use 'MaxMEllon/vim-jsx-pretty'
   -- Appearance
-  use { 'lukas-reineke/indent-blankline.nvim', branch = 'lua',
+  use { 'lukas-reineke/indent-blankline.nvim',
     config = function()
       vim.g.indent_blankline_buftype_exclude = {'terminal'}
       vim.g.indent_blankline_filetype_exclude = {'help', 'packer', }
@@ -116,6 +116,7 @@ return require('packer').startup(function()
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
     config = function() require('plugins.lualine') end
   }
+
   use {
     'folke/trouble.nvim',
     requires = 'kyazdani42/nvim-web-devicons',
@@ -164,10 +165,10 @@ return require('packer').startup(function()
 
   use 'dstein64/nvim-scrollview'
 
-  use {
-    'norcalli/nvim-colorizer.lua',
-    config = function() require('colorizer').setup() end
-  }
+  -- use {
+  --   'norcalli/nvim-colorizer.lua',
+  --   config = function() require('colorizer').setup() end
+  -- }
 
   -- -- Ruby
   use {

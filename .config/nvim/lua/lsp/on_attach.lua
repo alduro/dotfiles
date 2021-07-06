@@ -1,47 +1,35 @@
 local map_buf = require('utils').map_buf
 
-local on_attach = function(client, bufnr)
-  print("LSP started." .. client.name);
-  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+local on_attach = function(client)
+  print('Language Server Protocol started!', client.name)
+
+  if client.config.flags then
+    client.config.flags.allow_incremental_sync = true
+  end
+
   require'completion'.on_attach(client)
   require'lsp_signature'.on_attach(client)
 
-  vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
-  vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
-  vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
-  vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
-  vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
-  vim.cmd("command! LspOrganize lua lsp_organize_imports()")
-  vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
-  vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
-  vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
-  -- vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
-  -- vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
-  vim.cmd("command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
-  vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
-  
   local opts = { noremap = true, silent = true }
 
-  map_buf("n", "gd", ":LspDef<CR>", opts)
-  map_buf("n", "gr", ":LspRename<CR>", opts)
-  map_buf("n", "gR", ":LspRefs<CR>", opts)
-  map_buf("n", "gy", ":LspTypeDef<CR>", opts)
-  map_buf("n", "K",  ":LspHover<CR>", opts)
-  map_buf("n", "gs", ":LspOrganize<CR>", opts)
-  -- map_buf("n", "[a", ":LspDiagPrev<CR>", opts)
-  -- map_buf("n", "]a", ":LspDiagNext<CR>", opts)
-  map_buf("n", "ga", ":LspCodeAction<CR>", opts)
-  map_buf("n", "<Leader>a", ":LspDiagLine<CR>", opts)
-  map_buf("i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>", opts)
+  map_buf("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  map_buf("n", "gr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  map_buf("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  map_buf("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+  map_buf("n", "K",  "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  map_buf("n", "gs", "<cmd>lua lsp_organize_imports()<CR>", opts)
+  map_buf("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  map_buf("n", "<Leader>a", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})<CR>", opts)
+  map_buf("i", "<C-x><C-x>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 
-  vim.cmd [[autocmd CursorHold * LspDiagLine]]
-  vim.cmd [[autocmd CursorHoldI * silent! LspSignatureHelp]]
+  vim.cmd [[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({focusable=false})]]
+  vim.cmd [[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
 
   if client.resolved_capabilities.document_formatting then
     vim.api.nvim_exec([[
       augroup LspAutocommands
           autocmd! * <buffer>
-          autocmd BufWritePre <buffer> LspFormatting
+          autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()
       augroup END
       ]], true)
   end

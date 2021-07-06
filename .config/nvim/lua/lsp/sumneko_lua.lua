@@ -7,7 +7,7 @@ local sumneko_binary = ""
 
 if vim.fn.has("mac") == 1 then
     sumneko_root_path = "/Users/" .. USER .. "/.lua-language-server/lua-language-server"
-    sumneko_binary = "/Users/" .. USER .. "/..lua-language-server/lua-language-server/bin/macOS/lua-language-server"
+    sumneko_binary = "/Users/" .. USER .. "/.lua-language-server/lua-language-server/bin/macOS/lua-language-server"
 elseif vim.fn.has("unix") == 1 then
     sumneko_root_path = "/home/" .. USER .. "/.config/nvim/lua-language-server"
     sumneko_binary = "/home/" .. USER .. "/.config/nvim/lua-language-server/bin/Linux/lua-language-server"
