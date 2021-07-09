@@ -47,5 +47,5 @@ local on_attach = function(client)
     ]], false)
   end
 end
+
 return on_attach
- 

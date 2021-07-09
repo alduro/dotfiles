@@ -14,7 +14,7 @@ telescope.setup {
             ["<c-t>"] = trouble.open_with_trouble
           },
       n = { ["<esc>"] = actions.close ,
-            ["<c-t>"] = trouble.open_with_trouble 
+            ["<c-t>"] = trouble.open_with_trouble
           },
     },
     -- file_previewer = previewers.vim_buffer_cat.new,

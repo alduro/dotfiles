@@ -1,16 +1,23 @@
-vim.cmd 'packadd packer.nvim' 
+vim.cmd 'packadd packer.nvim'
 
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
   -- Packer can manage itself as an optional plugin
   use { 'wbthomason/packer.nvim', opt = true }
   use 'tpope/vim-commentary'
+
   use {
     'tpope/vim-fugitive',
     requires = 'tpope/vim-rhubarb', -- git wrapper + Github integration
     config = function() require('plugins.fugitive') end
   }
+
+  use {
+    'TimUntersberger/neogit',
+    requires = 'nvim-lua/plenary.nvim'
+  }
+
   use 'tpope/vim-repeat' -- enable repeating supported plugin maps with '.'
   use 'tpope/vim-surround' -- Vim Surround
   -- use {
@@ -22,8 +29,10 @@ return require('packer').startup(function()
     'mg979/vim-visual-multi',
     branch = 'master'
   } -- Multiple cursors
+
   use 'christoomey/vim-tmux-navigator' -- Seamless navigation between tmux panes and vim splits
   use 'jiangmiao/auto-pairs' -- insert or delete brackets, parens, quotes in pair
+
   use {
     'lewis6991/gitsigns.nvim',
     requires = {
@@ -38,7 +47,7 @@ return require('packer').startup(function()
     'akinsho/nvim-bufferline.lua',
     config = function() require('bufferline').setup() end
   }
-	
+
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
@@ -128,6 +137,7 @@ return require('packer').startup(function()
       }
     end
   }
+
   use {
     'folke/lsp-colors.nvim',
     config = require("lsp-colors").setup({
@@ -137,6 +147,7 @@ return require('packer').startup(function()
       Hint = "#10B981"
     })
   }
+
   use {
     'ray-x/lsp_signature.nvim',
   }
@@ -189,7 +200,7 @@ return require('packer').startup(function()
 
   -- Go
   use {
-    'fatih/vim-go', 
+    'fatih/vim-go',
     run = ':GoUpdateBinaries'
   }
   -- LSP
@@ -202,12 +213,6 @@ return require('packer').startup(function()
   -- }
   -- HTMLish
   use 'windwp/nvim-ts-autotag'
-
-  -- -- TODO: remove when TS is stable ?
-  -- -- use {
-  -- --   'tpope/vim-ragtag', -- ex <% %>, <%= %>, <!-- -->
-  -- --   config = function() vim.g.ragtag_global_maps = 1 end
-  -- -- }
 
   use {
     'mattn/emmet-vim',
