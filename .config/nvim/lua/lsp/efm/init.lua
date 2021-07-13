@@ -5,7 +5,7 @@ local eslint = require('lsp/efm/eslint')
 local prettier = require('lsp/efm/prettier')
 -- local goimports = require('lsp/efm/goimports')
 -- local golint  require('lsp/efm/golint')
--- local luafmt = require('lsp/efm/luafmt')
+local luafmt = require('lsp/efm/luafmt')
 
 local languages = {
   yaml = { prettier },
@@ -18,8 +18,11 @@ local languages = {
   -- css = { prettier },
   -- graphql = { prettier },
   -- html = { prettier },
-  -- lua = { luafmt },
-  -- go = {golint, goimports},
+  lua = { luafmt },
+  go = {
+    {formatCommand = "goimports", formatStdin = true},
+    {formatCommand = "gofumpt", formatStdin = true}
+  },
 }
 
 lspconfig.efm.setup({
