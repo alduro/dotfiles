@@ -1,10 +1,6 @@
 local lspconfig = require('lspconfig')
-local on_attach = require('lsp.on_attach')
-
 local eslint = require('lsp/efm/eslint')
 local prettier = require('lsp/efm/prettier')
--- local goimports = require('lsp/efm/goimports')
--- local golint  require('lsp/efm/golint')
 local luafmt = require('lsp/efm/luafmt')
 
 local languages = {
@@ -37,5 +33,9 @@ lspconfig.efm.setup({
     log_level = 1,
     log_file = '~/efm.log'
   },
-  on_attach = on_attach,
+  on_attach = function(client)
+    require('lsp.on_attach')
+  end,
 })
+
+

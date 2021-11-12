@@ -13,10 +13,13 @@ return require('packer').startup(function(use)
     config = function() require('plugins.fugitive') end
   }
 
-  use {
-    'TimUntersberger/neogit',
-    requires = 'nvim-lua/plenary.nvim'
-  }
+  -- use {
+  --   'TimUntersberger/neogit',
+  --   requires = 'nvim-lua/plenary.nvim',
+  --   config = function()
+  --     require('plugins.neogit')
+  --   end
+  -- }
 
   use 'tpope/vim-repeat' -- enable repeating supported plugin maps with '.'
   use 'tpope/vim-surround' -- Vim Surround
@@ -54,8 +57,6 @@ return require('packer').startup(function(use)
     config = function() require('plugins.treesitter') end
   }
 
-  use { 'nvim-lua/completion-nvim' }
-
   use {
     'ojroques/nvim-bufbar',
     config = function() require('bufbar').setup {
@@ -81,6 +82,13 @@ return require('packer').startup(function(use)
     config = function() require('plugins.telescope') end
   }
 
+  use {
+    "nvim-telescope/telescope-frecency.nvim",
+    config = function()
+      require"telescope".load_extension("frecency")
+    end,
+    requires = {"tami5/sqlite.lua"}
+  }
   -- use {
   --   'junegunn/fzf.vim',
   --   requires = { 'junegunn/fzf', run = '-> fzf#install()' },
@@ -88,14 +96,23 @@ return require('packer').startup(function(use)
   -- }
 
   use {
-    'kyazdani42/nvim-tree.lua',
-    config = function() require('plugins.nvim_tree') end
+      'kyazdani42/nvim-tree.lua',
+      requires = 'kyazdani42/nvim-web-devicons',
+      config = function() require'nvim-tree'.setup {
+        indent_markers = true,
+        auto_close = false,
+        follow = true,
+        hide_dotfiles = true,
+        git_hl = true,
+        disable_netrw = true, -- So :GBrowse works
+        hijack_netrw = true
+      } end
   }
 
-  use {
-    'dyng/ctrlsf.vim', -- Mimics Ctrl-Shift-F on Sublime Text 2
-    config = function() require('plugins.ctrlsf') end
-  }
+  -- use {
+  --   'dyng/ctrlsf.vim', -- Mimics Ctrl-Shift-F on Sublime Text 2
+  --   config = function() require('plugins.ctrlsf') end
+  -- }
 
   use {
     'neovim/nvim-lspconfig',
@@ -151,10 +168,13 @@ return require('packer').startup(function(use)
   use {
     'ray-x/lsp_signature.nvim',
   }
-  -- use {
-  --   'ray-x/navigator.lua', 
-  --   requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}
-  -- }
+  use {
+    'ray-x/navigator.lua',
+    requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'},
+    config = function()
+      require('navigator').setup()
+    end
+  }
   -- use {
   --   'joshdick/onedark.vim', -- Colorscheme based on atom onedark
   --   config = function() require('plugins.onedark') end
@@ -203,6 +223,12 @@ return require('packer').startup(function(use)
     'fatih/vim-go',
     run = ':GoUpdateBinaries'
   }
+  -- Rust
+  -- use {
+  --   'simrat39/rust-tools.nvim',
+  --   config = function() require('rust-tools').setup({}) end
+  -- }
+
   -- LSP
   -- use {
   --   'ojroques/nvim-lspfuzzy',
@@ -222,6 +248,8 @@ return require('packer').startup(function(use)
   }
 
   use 'rescript-lang/vim-rescript'
+
+  use 'gleam-lang/gleam.vim'
   -- Others
   use {
     'sheerun/vim-polyglot',
@@ -232,4 +260,15 @@ return require('packer').startup(function(use)
       vim.g.csv_end = 1000
     end
   }
+
+  use {
+      'neovim/nvim-lspconfig',
+      'williamboman/nvim-lsp-installer',
+  }
+
+  use { 'ms-jpq/coq_nvim', branch = 'coq' }
+
+  use { 'ms-jpq/coq.artifacts', branch = 'artifacts' }
+
+  use { 'ms-jpq/coq.thirdparty', branch = '3p' }
 end)

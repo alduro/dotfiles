@@ -6,6 +6,7 @@ local map_lua = require('utils').map_lua
 local map = require('utils').map
 telescope.load_extension 'fzy_native'
 telescope.load_extension('media_files')
+telescope.load_extension('frecency')
 
 telescope.setup {
   defaults = {
@@ -27,6 +28,7 @@ telescope.setup {
 local opts = { noremap = true, silent = true }
 
 map('n', '<leader>f' , ':Telescope find_files<CR>' , opts)
+map('n', '<leader>fg', ':Telescope live_grep<CR>' , opts)
 map('n', '<leader>B' , ':Telescope buffers<CR>' , opts)
 map('n', '<leader>gb', ':Telescope git_branches<CR>' , opts)
 map('n', '<leader>ht', ':Telescope help_tags<CR>' , opts)
